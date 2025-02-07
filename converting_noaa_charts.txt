@@ -1,0 +1,4 @@
+first run "brew install gdal tippecanoe" to install dependencies
+then run run "./convert_s57_to_geojson.sh"
+then run "ogrmerge.py -single -f GeoJSON -o ~/Downloads/merged_enc.json ~/Downloads/geojson_output/*.json" to merge all json files into one.
+then run "tippecanoe -o ~/Downloads/enc.mbtiles -z12 -Z4 -l enc ~/Downloads/merged_enc.json" to convert geojson to mbtiles

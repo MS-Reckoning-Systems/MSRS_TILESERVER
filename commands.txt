@@ -1,0 +1,56 @@
+List data for specific s-57 file   
+    ogrinfo -ro -al -so ~/Downloads/ENC_ROOT/US5VA27M/US5VA27M.000 
+
+List only layer names
+    ogrinfo -ro -q ~/Downloads/ENC_ROOT/US5VA27M/US5VA27M.000 | awk -F: '{print $2}'
+
+Layer info:
+Layer Name	Geometry Type	Description
+DSID	None	Dataset Identification, metadata for the ENC file
+BCNLAT	Point	Lateral beacon (buoy) used for navigation
+BCNSPP	Point	Special purpose beacon, may indicate hazards or specific guidance
+BRIDGE	Line	Bridges crossing waterways
+BUISGL	Line	Building silhouette, used for navigation and reference
+BUAARE	Polygon	Built-up areas, indicating towns, cities, or populated places
+BOYLAT	Point	Lateral buoy, part of the channel marking system
+BOYSAW	Point	Safe water buoy, used in deep water or channel entrances
+BOYSPP	Point	Special purpose buoy, often marking underwater hazards
+CBLARE	Polygon	Cable area, indicating underwater cables that should not be disturbed
+CBLOHD	Line	Overhead cable, crossing navigable waters
+CBLSUB	Line	Submarine cable, usually electrical or telecommunication lines
+CTNARE	Polygon	Caution area, indicating potential hazards or restrictions
+COALNE	Line	Coastline, showing the boundary between land and sea
+DAYMAR	Point	Daymark, a fixed navigation aid visible in daylight
+DEPARE	Polygon	Depth area, showing different depth zones for safe navigation
+DEPCNT	Line	Depth contour, indicating underwater depth changes
+DRGARE	Polygon	Dredged area, where the seabed has been modified for safe passage
+FAIRWY	Polygon	Fairway, an officially designated navigation route
+FERYRT	Line	Ferry route, showing regular ferry crossings
+FSHFAC	Polygon	Fishing facility, such as aquaculture or designated fishing areas
+FOGSIG	Point	Fog signal, an audible navigation aid in foggy conditions
+LAKARE	Polygon	Lake area, showing significant inland water bodies
+LNDARE	Polygon	Land area, indicating solid land masses
+LNDRGN	Polygon	Land region, specifying different land types or usage zones
+LNDMRK	Point	Landmark, a recognizable structure for navigation
+LIGHTS	Point	Light structure, such as a lighthouse or light buoy
+MAGVAR	Point	Magnetic variation, showing declination for navigation corrections
+MARCUL	Polygon	Marine culture, areas designated for aquaculture or similar
+MIPARE	Polygon	Military practice area, where naval exercises occur
+MORFAC	Point	Mooring facility, designated areas for mooring vessels
+OBSTRN	Point	Obstruction, indicating dangers such as wrecks or rocks
+OFSPLF	Polygon	Offshore platform, such as oil rigs or research stations
+PILPNT	Point	Pilot boarding point, where pilots meet ships for navigation assistance
+PONTON	Polygon	Floating pontoon, often used for docking
+RESARE	Polygon	Restricted area, indicating limitations on vessel movement
+RIVERS	Line	River features for inland navigation
+SEAARE	Polygon	Sea area, designated for specific usage or awareness
+SBDARE	Polygon	Seabed area, providing information about the underwater terrain
+SLCONS	Polygon	Sealing construction, like dikes, embankments, or sea walls
+SILTNK	Polygon	Silo or tank, often for oil or other marine cargo
+SOUNDG	3D Multi Point	Soundings, representing underwater depth measurements at specific points
+UWTROC	Point	Underwater rock, a hazard for vessels
+WRECKS	Point	Wrecked ship, indicating partially or fully submerged wrecks
+M_COVR	Polygon	Meta coverage, defining ENC data boundaries
+M_NPUB	Polygon	Meta nautical publication, referring to external navigation data
+M_NSYS	Polygon	Meta navigation system, specifying data for navigation infrastructure
+M_QUAL	Polygon	Meta quality, describing accuracy and confidence in ENC data
