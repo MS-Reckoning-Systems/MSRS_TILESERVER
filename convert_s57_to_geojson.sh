@@ -128,7 +128,7 @@ echo "🔄 Converting merged GeoJSON to MBTiles..."
 rm -f ~/Downloads/enc.mbtiles
 
 
-TIPPECANOE_CMD="tippecanoe -o ~/Downloads/enc.mbtiles -z12 -Z4 --force"
+TIPPECANOE_CMD="tippecanoe -o ~/Downloads/enc.mbtiles -z19 -Z1 --force"
 
 # Add dynamically detected layers to Tippecanoe
 for geojson_file in ~/Downloads/geojson_output/*.json; do
