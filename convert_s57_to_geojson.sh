@@ -1,4 +1,4 @@
-#!/bin/bash
+# #!/bin/bash
 
 # rm -rf ~/Downloads/geojson_output
 # mkdir -p ~/Downloads/geojson_output
@@ -46,7 +46,7 @@
 #         "SBDARE") echo "false|Polygon|Seabed area providing underwater terrain info" ;;
 #         "SLCONS") echo "false|Polygon|Sealing construction such as dikes and sea walls" ;;
 #         "SILTNK") echo "false|Polygon|Silos or tanks, often for oil storage" ;;
-#         "SOUNDG") echo "true|3D MultiPoint|Soundings, representing underwater depth measurements" ;;
+#         "SOUNDG") echo "false|3D MultiPoint|Soundings, representing underwater depth measurements" ;;
 #         "UWTROC") echo "false|Point|Underwater rock, a hazard for vessels" ;;
 #         "WRECKS") echo "false|Point|Wrecked ship, indicating submerged wrecks" ;;
 #         "M_COVR") echo "false|Polygon|Metadata coverage defining ENC data boundaries" ;;
@@ -96,23 +96,6 @@
 #         fi
 #     done
 # done
-
-# # 🚀 **Post-Processing Steps**
-# echo "🔄 Merging extracted GeoJSON files into a single file..."
-# rm -f ~/Downloads/merged_enc.json
-# ogrmerge.py -single -overwrite_ds -f GeoJSON -o ~/Downloads/merged_enc.json ~/Downloads/geojson_output/*.json
-
-# if [ -f ~/Downloads/merged_enc.json ]; then
-#     echo "✅ Merged GeoJSON file created: ~/Downloads/merged_enc.json"
-# else
-#     echo "❌ Failed to create merged GeoJSON file!"
-#     exit 1
-# fi
-
-# # 🚀 **Convert Merged GeoJSON to MBTiles using Tippecanoe**
-# echo "🔄 Converting merged GeoJSON to MBTiles..."
-# rm -f ~/Downloads/enc.mbtiles
-
 
 # Define directories
 RAW_JSON_DIR=~/Downloads/geojson_output
@@ -238,8 +221,21 @@ for master_json in "$MERGED_JSON_DIR"/*.json; do
 
     echo "Processing layer: $layer_name..."
 
-    # Run Tippecanoe with full paths and handle errors
-    if tippecanoe -o "$output_file" --no-feature-limit --base-zoom=5 --no-tile-size-limit -z20 -Z0 -L "$layer_name:$master_json" --name="$layer_name"; then
+    # Run Tippecanoe with maximum detail and handle errors
+    if tippecanoe -o "$output_file" \
+        --no-feature-limit \
+        --no-tile-size-limit \
+        --base-zoom=18 \  # Start rendering at high base zoom for max detail
+        --maximum-tile-bytes=500000 \  # Allow larger tiles for more details
+        --full-detail=22 \  # Preserve maximum feature detail at high zooms
+        --low-detail=12 \  # Retain fine details even at lower zooms
+        --simplification=0 \  # Disable feature simplification
+        --coalesce-densest-as-needed \  # Helps keep high-density areas intact
+        --buffer=16 \  # Expand tile boundaries to avoid feature clipping
+        -z22 -Z0 \  # Allow zoom levels from 0 to 22 for full resolution
+        -L "$layer_name:$master_json" \
+        --name="$layer_name" \
+        --description="Generated on $(date +'%m/%d/%Y')" ; then
         echo "✅ Successfully created: $output_file"
     else
         echo "❌ Failed to create MBTiles for layer: $layer_name" >> mbtiles_errors.log

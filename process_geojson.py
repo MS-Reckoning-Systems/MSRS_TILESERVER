@@ -25,7 +25,7 @@ for filename in os.listdir(MERGED_JSON_DIR):
 
             if geometry["type"] == "Point":
                 if len(coords) == 3:
-                    feature["properties"]["depth"] = coords[2]  # Store depth
+                    feature["properties"]["depth"] = coords[2][0]  # Store depth
                     feature["geometry"]["coordinates"] = coords[:2]  # Keep only [lon, lat]
                     updated = True
                 new_features.append(feature)  # Keep the single Point
@@ -41,7 +41,7 @@ for filename in os.listdir(MERGED_JSON_DIR):
                             },
                             "properties": feature["properties"].copy()  # Copy existing properties
                         }
-                        new_feature["properties"]["depth"] = coord[2]  # Assign depth
+                        new_feature["properties"]["depth"] = coord[2][0]  # Assign depth
                         new_features.append(new_feature)
                     else:
                         print(f"⚠️ Skipping invalid coordinate (wrong length) in {filename}: {coord}")
