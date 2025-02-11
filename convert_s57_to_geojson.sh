@@ -1,61 +1,61 @@
-# #!/bin/bash
+#!/bin/bash
 
-# rm -rf ~/Downloads/geojson_output
-# mkdir -p ~/Downloads/geojson_output
+rm -rf ~/Downloads/geojson_output
+mkdir -p ~/Downloads/geojson_output
 
-# # Function to retrieve layer information dynamically
-# get_layer_info() {
-#     case "$1" in
-#         "BCNLAT") echo "false|Point|Lateral beacon used for navigation" ;;
-#         "BCNSPP") echo "false|Point|Special purpose beacon, may indicate hazards or guidance" ;;
-#         "BRIDGE") echo "false|Polyline|Bridges crossing waterways" ;;
-#         "BUISGL") echo "false|Polyline|Building silhouette used for navigation" ;;
-#         "BUAARE") echo "false|Polygon|Built-up areas indicating towns and populated places" ;;
-#         "BOYLAT") echo "true|Point|Lateral buoy as part of the channel marking system" ;;
-#         "BOYSAW") echo "true|Point|Safe water buoy, marking deep water or channel entrances" ;;
-#         "BOYSPP") echo "true|Point|Special purpose buoy, often marking underwater hazards" ;;
-#         "CBLARE") echo "false|Polygon|Cable area indicating underwater cables" ;;
-#         "CBLOHD") echo "false|Polyline|Overhead cable crossing navigable waters" ;;
-#         "CBLSUB") echo "false|Polyline|Submarine cable (electrical, telecom, etc.)" ;;
-#         "CTNARE") echo "false|Polygon|Caution area indicating hazards or restrictions" ;;
-#         "COALNE") echo "false|Polyline|Coastline marking the boundary between land and sea" ;;
-#         "DAYMAR") echo "true|Point|Daymark, a fixed navigation aid visible in daylight" ;;
-#         "DEPARE") echo "false|Polygon|Depth area, showing different depth zones" ;;
-#         "DEPCNT") echo "false|Polyline|Depth contour indicating underwater depth changes" ;;
-#         "DRGARE") echo "false|Polygon|Dredged area for safe passage of ships" ;;
-#         "FAIRWY") echo "false|Polygon|Officially designated navigation route" ;;
-#         "FERYRT") echo "false|Polyline|Ferry route showing regular crossings" ;;
-#         "FSHFAC") echo "false|Polygon|Fishing facility such as aquaculture areas" ;;
-#         "FOGSIG") echo "false|Point|Fog signal, an audible navigation aid" ;;
-#         "LAKARE") echo "false|Polygon|Lake area, showing significant inland water bodies" ;;
-#         "LNDARE") echo "false|Polygon|Land area, marking solid land masses" ;;
-#         "LNDRGN") echo "false|Polygon|Land region, specifying land types or usage" ;;
-#         "LNDMRK") echo "false|Point|Landmark, a recognizable structure for navigation" ;;
-#         "LIGHTS") echo "false|Point|Lighthouse or navigational light" ;;
-#         "MAGVAR") echo "false|Point|Magnetic variation for compass correction" ;;
-#         "MARCUL") echo "false|Polygon|Marine culture area such as fish farms" ;;
-#         "MIPARE") echo "false|Polygon|Military practice area" ;;
-#         "MORFAC") echo "false|Point|Mooring facility for docking vessels" ;;
-#         "OBSTRN") echo "false|Point|Obstruction such as underwater rocks" ;;
-#         "OFSPLF") echo "false|Polygon|Offshore platform (oil rigs, research stations)" ;;
-#         "PILPNT") echo "false|Point|Pilot boarding point for maritime pilots" ;;
-#         "PONTON") echo "false|Polygon|Floating pontoon used for docking" ;;
-#         "RESARE") echo "false|Polygon|Restricted area limiting vessel movement" ;;
-#         "RIVERS") echo "false|Polyline|Rivers for inland navigation" ;;
-#         "SEAARE") echo "false|Polygon|Sea area designated for specific use" ;;
-#         "SBDARE") echo "false|Polygon|Seabed area providing underwater terrain info" ;;
-#         "SLCONS") echo "false|Polygon|Sealing construction such as dikes and sea walls" ;;
-#         "SILTNK") echo "false|Polygon|Silos or tanks, often for oil storage" ;;
-#         "SOUNDG") echo "false|3D MultiPoint|Soundings, representing underwater depth measurements" ;;
-#         "UWTROC") echo "false|Point|Underwater rock, a hazard for vessels" ;;
-#         "WRECKS") echo "false|Point|Wrecked ship, indicating submerged wrecks" ;;
-#         "M_COVR") echo "false|Polygon|Metadata coverage defining ENC data boundaries" ;;
-#         "M_NPUB") echo "false|Polygon|Metadata for nautical publications" ;;
-#         "M_NSYS") echo "false|Polygon|Metadata for navigation systems" ;;
-#         "M_QUAL") echo "false|Polygon|Metadata describing ENC data quality" ;;
-#         *) echo "false|Unknown|Unknown layer, skipping" ;;  # Default case for unknown layers
-#     esac
-# }
+# Function to retrieve layer information dynamically
+get_layer_info() {
+    case "$1" in
+        "BCNLAT") echo "false|Point|Lateral beacon used for navigation" ;;
+        "BCNSPP") echo "false|Point|Special purpose beacon, may indicate hazards or guidance" ;;
+        "BRIDGE") echo "false|Polyline|Bridges crossing waterways|1|15" ;;
+        "BUISGL") echo "false|Polyline|Building silhouette used for navigation|1|15" ;;
+        "BUAARE") echo "false|Polygon|Built-up areas indicating towns and populated places|1|15" ;;
+        "BOYLAT") echo "true|Point|Lateral buoy as part of the channel marking system|1|16" ;;
+        "BOYSAW") echo "true|Point|Safe water buoy, marking deep water or channel entrances|1|16" ;;
+        "BOYSPP") echo "true|Point|Special purpose buoy, often marking underwater hazards|1|16" ;;
+        "CBLARE") echo "false|Polygon|Cable area indicating underwater cables|1|15" ;;
+        "CBLOHD") echo "false|Polyline|Overhead cable crossing navigable waters|1|15" ;;
+        "CBLSUB") echo "false|Polyline|Submarine cable (electrical, telecom, etc.)|1|15" ;;
+        "CTNARE") echo "false|Polygon|Caution area indicating hazards or restrictions|1|15" ;;
+        "COALNE") echo "false|Polyline|Coastline marking the boundary between land and sea|1|15" ;;
+        "DAYMAR") echo "true|Point|Daymark, a fixed navigation aid visible in daylight|1|16" ;;
+        "DEPARE") echo "false|Polygon|Depth area, showing different depth zones|1|15" ;;
+        "DEPCNT") echo "false|Polyline|Depth contour indicating underwater depth changes|1|15" ;;
+        "DRGARE") echo "false|Polygon|Dredged area for safe passage of ships|1|15" ;;
+        "FAIRWY") echo "false|Polygon|Officially designated navigation route|1|15" ;;
+        "FERYRT") echo "false|Polyline|Ferry route showing regular crossings|1|15" ;;
+        "FSHFAC") echo "false|Polygon|Fishing facility such as aquaculture areas|1|15" ;;
+        "FOGSIG") echo "false|Point|Fog signal, an audible navigation aid|1|15" ;;
+        "LAKARE") echo "false|Polygon|Lake area, showing significant inland water bodies|1|15" ;;
+        "LNDARE") echo "false|Polygon|Land area, marking solid land masses|1|15" ;;
+        "LNDRGN") echo "false|Polygon|Land region, specifying land types or usage|1|15" ;;
+        "LNDMRK") echo "false|Point|Landmark, a recognizable structure for navigation|1|15" ;;
+        "LIGHTS") echo "false|Point|Lighthouse or navigational light|1|15" ;;
+        "MAGVAR") echo "false|Point|Magnetic variation for compass correction|1|15" ;;
+        "MARCUL") echo "false|Polygon|Marine culture area such as fish farms|1|15" ;;
+        "MIPARE") echo "false|Polygon|Military practice area|1|15" ;;
+        "MORFAC") echo "false|Point|Mooring facility for docking vessels|1|15" ;;
+        "OBSTRN") echo "false|Point|Obstruction such as underwater rocks|1|15" ;;
+        "OFSPLF") echo "false|Polygon|Offshore platform (oil rigs, research stations)|1|15" ;;
+        "PILPNT") echo "false|Point|Pilot boarding point for maritime pilots|1|15" ;;
+        "PONTON") echo "false|Polygon|Floating pontoon used for docking|1|15" ;;
+        "RESARE") echo "false|Polygon|Restricted area limiting vessel movement|1|15" ;;
+        "RIVERS") echo "false|Polyline|Rivers for inland navigation|1|15" ;;
+        "SEAARE") echo "false|Polygon|Sea area designated for specific use|1|15" ;;
+        "SBDARE") echo "false|Polygon|Seabed area providing underwater terrain info|1|15" ;;
+        "SLCONS") echo "false|Polygon|Sealing construction such as dikes and sea walls|1|15" ;;
+        "SILTNK") echo "false|Polygon|Silos or tanks, often for oil storage|1|15" ;;
+        "SOUNDG") echo "true|3D MultiPoint|Soundings, representing underwater depth measurements|18|19" ;;
+        "UWTROC") echo "false|Point|Underwater rock, a hazard for vessels|1|15" ;;
+        "WRECKS") echo "false|Point|Wrecked ship, indicating submerged wrecks|1|15" ;;
+        "M_COVR") echo "false|Polygon|Metadata coverage defining ENC data boundaries|1|15" ;;
+        "M_NPUB") echo "false|Polygon|Metadata for nautical publications|1|15" ;;
+        "M_NSYS") echo "false|Polygon|Metadata for navigation systems|1|15" ;;
+        "M_QUAL") echo "false|Polygon|Metadata describing ENC data quality|1|15" ;;
+        *) echo "false|Unknown|Unknown layer, skipping" ;;  # Default case for unknown layers
+    esac
+}
 
 # # Find the latest .000 ENC file in each subfolder
 # for dir in ~/Downloads/ENC_ROOT/*/; do
@@ -97,101 +97,101 @@
 #     done
 # done
 
-# Define directories
-RAW_JSON_DIR=~/Downloads/geojson_output
-LAYER_TMP_DIR=~/Downloads/tmp_layers
-MERGED_JSON_DIR=~/Downloads/merged_json_layers
+# # Define directories
+# RAW_JSON_DIR=~/Downloads/geojson_output
+# LAYER_TMP_DIR=~/Downloads/tmp_layers
+# MERGED_JSON_DIR=~/Downloads/merged_json_layers
 
-# Create directories
-mkdir -p "$LAYER_TMP_DIR"
-mkdir -p "$MERGED_JSON_DIR"
+# # Create directories
+# mkdir -p "$LAYER_TMP_DIR"
+# mkdir -p "$MERGED_JSON_DIR"
 
-echo "🔄 Organizing files into layer folders..."
+# echo "🔄 Organizing files into layer folders..."
 
-# Step 1: Organize JSON files into separate folders by layer
-for geojson_file in "$RAW_JSON_DIR"/*.json; do
-    layer_name=$(basename "$geojson_file" | cut -d'_' -f2 | cut -d'.' -f1)
-    mkdir -p "$LAYER_TMP_DIR/$layer_name"
-    cp "$geojson_file" "$LAYER_TMP_DIR/$layer_name/"
-done
+# # Step 1: Organize JSON files into separate folders by layer
+# for geojson_file in "$RAW_JSON_DIR"/*.json; do
+#     layer_name=$(basename "$geojson_file" | cut -d'_' -f2 | cut -d'.' -f1)
+#     mkdir -p "$LAYER_TMP_DIR/$layer_name"
+#     cp "$geojson_file" "$LAYER_TMP_DIR/$layer_name/"
+# done
 
-echo "✅ Files organized into per-layer folders."
+# echo "✅ Files organized into per-layer folders."
 
-# Function to merge two JSON files safely
-merge_two_json() {
-    local file1="$1"
-    local file2="$2"
-    local output="$3"
+# # Function to merge two JSON files safely
+# merge_two_json() {
+#     local file1="$1"
+#     local file2="$2"
+#     local output="$3"
 
-    # Validate JSON before merging
-    if ! jq empty "$file1" 2>/dev/null; then
-        echo "❌ Skipping invalid JSON: $file1" >> invalid_files.log
-        return
-    fi
-    if ! jq empty "$file2" 2>/dev/null; then
-        echo "❌ Skipping invalid JSON: $file2" >> invalid_files.log
-        return
-    fi
+#     # Validate JSON before merging
+#     if ! jq empty "$file1" 2>/dev/null; then
+#         echo "❌ Skipping invalid JSON: $file1" >> invalid_files.log
+#         return
+#     fi
+#     if ! jq empty "$file2" 2>/dev/null; then
+#         echo "❌ Skipping invalid JSON: $file2" >> invalid_files.log
+#         return
+#     fi
 
-    # Merge JSON files
-    jq -s '.[0].features += .[1].features | .[0]' "$file1" "$file2" > "$output"
+#     # Merge JSON files
+#     jq -s '.[0].features += .[1].features | .[0]' "$file1" "$file2" > "$output"
 
-    # Log if merge fails
-    if [[ $? -ne 0 ]]; then
-        echo "❌ Merge failed for $file1 and $file2" >> merge_errors.log
-    fi
-}
+#     # Log if merge fails
+#     if [[ $? -ne 0 ]]; then
+#         echo "❌ Merge failed for $file1 and $file2" >> merge_errors.log
+#     fi
+# }
 
-export -f merge_two_json
+# export -f merge_two_json
 
-# Step 2: Merge files within each layer folder using a bracket-style approach
-echo "🔄 Starting bracket-style merging per layer..."
+# # Step 2: Merge files within each layer folder using a bracket-style approach
+# echo "🔄 Starting bracket-style merging per layer..."
 
-for layer in "$LAYER_TMP_DIR"/*; do
-    layer_name=$(basename "$layer")
-    echo "🔹 Processing layer: $layer_name"
+# for layer in "$LAYER_TMP_DIR"/*; do
+#     layer_name=$(basename "$layer")
+#     echo "🔹 Processing layer: $layer_name"
 
-    # Collect JSON files for this layer
-    json_files=("$layer"/*.json)
+#     # Collect JSON files for this layer
+#     json_files=("$layer"/*.json)
 
-    # If only one file exists, move it to final directory
-    if [[ ${#json_files[@]} -eq 1 ]]; then
-        mv "${json_files[0]}" "$MERGED_JSON_DIR/${layer_name}.json"
-        echo "✅ Only one file in layer $layer_name, moved to final result."
-        continue
-    fi
+#     # If only one file exists, move it to final directory
+#     if [[ ${#json_files[@]} -eq 1 ]]; then
+#         mv "${json_files[0]}" "$MERGED_JSON_DIR/${layer_name}.json"
+#         echo "✅ Only one file in layer $layer_name, moved to final result."
+#         continue
+#     fi
 
-    round=1
-    while [[ ${#json_files[@]} -gt 1 ]]; do
-        echo "  🔄 Round $round - ${#json_files[@]} files in layer $layer_name..."
-        new_round_files=()
+#     round=1
+#     while [[ ${#json_files[@]} -gt 1 ]]; do
+#         echo "  🔄 Round $round - ${#json_files[@]} files in layer $layer_name..."
+#         new_round_files=()
         
-        for ((i=0; i<${#json_files[@]}; i+=2)); do
-            file1="${json_files[i]}"
-            file2="${json_files[i+1]}"
+#         for ((i=0; i<${#json_files[@]}; i+=2)); do
+#             file1="${json_files[i]}"
+#             file2="${json_files[i+1]}"
             
-            if [[ -z "$file2" ]]; then
-                # If odd number of files, push last file to next round
-                new_round_files+=("$file1")
-                continue
-            fi
+#             if [[ -z "$file2" ]]; then
+#                 # If odd number of files, push last file to next round
+#                 new_round_files+=("$file1")
+#                 continue
+#             fi
 
-            output_file="$layer/merge_round_${round}_${i}.json"
-            merge_two_json "$file1" "$file2" "$output_file" &
-            new_round_files+=("$output_file")
-        done
+#             output_file="$layer/merge_round_${round}_${i}.json"
+#             merge_two_json "$file1" "$file2" "$output_file" &
+#             new_round_files+=("$output_file")
+#         done
 
-        # Wait for all background merges to complete
-        wait
+#         # Wait for all background merges to complete
+#         wait
 
-        json_files=("${new_round_files[@]}")
-        ((round++))
-    done
+#         json_files=("${new_round_files[@]}")
+#         ((round++))
+#     done
 
-    # Move final merged file to destination
-    mv "${json_files[0]}" "$MERGED_JSON_DIR/${layer_name}.json"
-    echo "✅ Layer $layer_name merged successfully!"
-done
+#     # Move final merged file to destination
+#     mv "${json_files[0]}" "$MERGED_JSON_DIR/${layer_name}.json"
+#     echo "✅ Layer $layer_name merged successfully!"
+# done
 
 echo "🏆 All layers merged! Final outputs in $MERGED_JSON_DIR"
 echo "❗ Check invalid_files.log and merge_errors.log for any issues."
@@ -221,21 +221,18 @@ for master_json in "$MERGED_JSON_DIR"/*.json; do
 
     echo "Processing layer: $layer_name..."
 
-    # Run Tippecanoe with maximum detail and handle errors
-    if tippecanoe -o "$output_file" \
-        --no-feature-limit \
-        --no-tile-size-limit \
-        --base-zoom=18 \  # Start rendering at high base zoom for max detail
-        --maximum-tile-bytes=500000 \  # Allow larger tiles for more details
-        --full-detail=22 \  # Preserve maximum feature detail at high zooms
-        --low-detail=12 \  # Retain fine details even at lower zooms
-        --simplification=0 \  # Disable feature simplification
-        --coalesce-densest-as-needed \  # Helps keep high-density areas intact
-        --buffer=16 \  # Expand tile boundaries to avoid feature clipping
-        -z22 -Z0 \  # Allow zoom levels from 0 to 22 for full resolution
-        -L "$layer_name:$master_json" \
-        --name="$layer_name" \
-        --description="Generated on $(date +'%m/%d/%Y')" ; then
+    # Get min/max zoom levels dynamically
+    layer_info=$(get_layer_info "$layer_name")
+    IFS='|' read enabled geometry description min_zoom max_zoom <<< "${layer_info}"
+
+    # Skip disabled layers
+    if [[ "$enabled" != "true" ]]; then
+        echo "❌ Skipping disabled layer: $layer_name"
+        continue
+    fi
+
+    # Run Tippecanoe with dynamic zoom levels
+    if tippecanoe -o "$output_file" --maximum-tile-features=10000000 --maximum-tile-bytes=99999999999999 -z6 -L "$layer_name:$master_json" --name="$layer_name"; then
         echo "✅ Successfully created: $output_file"
     else
         echo "❌ Failed to create MBTiles for layer: $layer_name" >> mbtiles_errors.log
