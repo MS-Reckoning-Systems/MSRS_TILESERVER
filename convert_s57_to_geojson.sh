@@ -57,141 +57,141 @@ get_layer_info() {
     esac
 }
 
-# # Find the latest .000 ENC file in each subfolder
-# for dir in ~/Downloads/ENC_ROOT/*/; do
-#     latest_enc=$(ls -v "$dir"/*.000 2>/dev/null | tail -n 1)  # Get the latest ENC file
-#     if [[ -z "$latest_enc" ]]; then
-#         echo "⚠️ No .000 ENC file found in $dir, skipping..."
-#         continue
-#     fi
+# Find the latest .000 ENC file in each subfolder
+for dir in ~/Downloads/ENC_ROOT/*/; do
+    latest_enc=$(ls -v "$dir"/*.000 2>/dev/null | tail -n 1)  # Get the latest ENC file
+    if [[ -z "$latest_enc" ]]; then
+        echo "⚠️ No .000 ENC file found in $dir, skipping..."
+        continue
+    fi
 
-#     base_name=$(basename "$latest_enc" .000)
-#     echo "📂 Processing latest ENC file: $latest_enc..."
+    base_name=$(basename "$latest_enc" .000)
+    echo "📂 Processing latest ENC file: $latest_enc..."
 
-#     # Get valid named layers (excluding metadata)
-#     layers=$(ogrinfo -ro -q "$latest_enc" | awk -F: '{print $2}' | grep -v "DSID")
+    # Get valid named layers (excluding metadata)
+    layers=$(ogrinfo -ro -q "$latest_enc" | awk -F: '{print $2}' | grep -v "DSID")
 
-#     for layer in $layers; do
-#         # Get layer info dynamically
-#         layer_info=$(get_layer_info "$layer")
-#         IFS='|' read enabled geometry description <<< "${layer_info}"
+    for layer in $layers; do
+        # Get layer info dynamically
+        layer_info=$(get_layer_info "$layer")
+        IFS='|' read enabled geometry description <<< "${layer_info}"
 
-#         # Process only enabled layers
-#         if [[ "$enabled" == "true" ]]; then
-#             geojson_file=~/Downloads/geojson_output/"$base_name"_"$layer".json
-#             echo "✅ Extracting ($geometry): $layer - $description"
+        # Process only enabled layers
+        if [[ "$enabled" == "true" ]]; then
+            geojson_file=~/Downloads/geojson_output/"$base_name"_"$layer".json
+            echo "✅ Extracting ($geometry): $layer - $description"
 
-#             # Run ogr2ogr to extract the layer
-#             ogr2ogr -f GeoJSON "$geojson_file" "$latest_enc" "$layer" 2>/dev/null
+            # Run ogr2ogr to extract the layer
+            ogr2ogr -f GeoJSON "$geojson_file" "$latest_enc" "$layer" 2>/dev/null
 
-#             # Remove empty files
-#             if [ -s "$geojson_file" ]; then
-#                 echo "✅ Successfully extracted: $layer"
-#             else
-#                 echo "🚫 Empty layer: $layer, removing file"
-#                 rm -f "$geojson_file"
-#             fi
-#         else
-#             echo "❌ Skipping disabled layer: $layer"
-#         fi
-#     done
-# done
+            # Remove empty files
+            if [ -s "$geojson_file" ]; then
+                echo "✅ Successfully extracted: $layer"
+            else
+                echo "🚫 Empty layer: $layer, removing file"
+                rm -f "$geojson_file"
+            fi
+        else
+            echo "❌ Skipping disabled layer: $layer"
+        fi
+    done
+done
 
-# # Define directories
-# RAW_JSON_DIR=~/Downloads/geojson_output
-# LAYER_TMP_DIR=~/Downloads/tmp_layers
-# MERGED_JSON_DIR=~/Downloads/merged_json_layers
+# Define directories
+RAW_JSON_DIR=~/Downloads/geojson_output
+LAYER_TMP_DIR=~/Downloads/tmp_layers
+MERGED_JSON_DIR=~/Downloads/merged_json_layers
 
-# # Create directories
-# mkdir -p "$LAYER_TMP_DIR"
-# mkdir -p "$MERGED_JSON_DIR"
+# Create directories
+mkdir -p "$LAYER_TMP_DIR"
+mkdir -p "$MERGED_JSON_DIR"
 
-# echo "🔄 Organizing files into layer folders..."
+echo "🔄 Organizing files into layer folders..."
 
-# # Step 1: Organize JSON files into separate folders by layer
-# for geojson_file in "$RAW_JSON_DIR"/*.json; do
-#     layer_name=$(basename "$geojson_file" | cut -d'_' -f2 | cut -d'.' -f1)
-#     mkdir -p "$LAYER_TMP_DIR/$layer_name"
-#     cp "$geojson_file" "$LAYER_TMP_DIR/$layer_name/"
-# done
+# Step 1: Organize JSON files into separate folders by layer
+for geojson_file in "$RAW_JSON_DIR"/*.json; do
+    layer_name=$(basename "$geojson_file" | cut -d'_' -f2 | cut -d'.' -f1)
+    mkdir -p "$LAYER_TMP_DIR/$layer_name"
+    cp "$geojson_file" "$LAYER_TMP_DIR/$layer_name/"
+done
 
-# echo "✅ Files organized into per-layer folders."
+echo "✅ Files organized into per-layer folders."
 
-# # Function to merge two JSON files safely
-# merge_two_json() {
-#     local file1="$1"
-#     local file2="$2"
-#     local output="$3"
+# Function to merge two JSON files safely
+merge_two_json() {
+    local file1="$1"
+    local file2="$2"
+    local output="$3"
 
-#     # Validate JSON before merging
-#     if ! jq empty "$file1" 2>/dev/null; then
-#         echo "❌ Skipping invalid JSON: $file1" >> invalid_files.log
-#         return
-#     fi
-#     if ! jq empty "$file2" 2>/dev/null; then
-#         echo "❌ Skipping invalid JSON: $file2" >> invalid_files.log
-#         return
-#     fi
+    # Validate JSON before merging
+    if ! jq empty "$file1" 2>/dev/null; then
+        echo "❌ Skipping invalid JSON: $file1" >> invalid_files.log
+        return
+    fi
+    if ! jq empty "$file2" 2>/dev/null; then
+        echo "❌ Skipping invalid JSON: $file2" >> invalid_files.log
+        return
+    fi
 
-#     # Merge JSON files
-#     jq -s '.[0].features += .[1].features | .[0]' "$file1" "$file2" > "$output"
+    # Merge JSON files
+    jq -s '.[0].features += .[1].features | .[0]' "$file1" "$file2" > "$output"
 
-#     # Log if merge fails
-#     if [[ $? -ne 0 ]]; then
-#         echo "❌ Merge failed for $file1 and $file2" >> merge_errors.log
-#     fi
-# }
+    # Log if merge fails
+    if [[ $? -ne 0 ]]; then
+        echo "❌ Merge failed for $file1 and $file2" >> merge_errors.log
+    fi
+}
 
-# export -f merge_two_json
+export -f merge_two_json
 
-# # Step 2: Merge files within each layer folder using a bracket-style approach
-# echo "🔄 Starting bracket-style merging per layer..."
+# Step 2: Merge files within each layer folder using a bracket-style approach
+echo "🔄 Starting bracket-style merging per layer..."
 
-# for layer in "$LAYER_TMP_DIR"/*; do
-#     layer_name=$(basename "$layer")
-#     echo "🔹 Processing layer: $layer_name"
+for layer in "$LAYER_TMP_DIR"/*; do
+    layer_name=$(basename "$layer")
+    echo "🔹 Processing layer: $layer_name"
 
-#     # Collect JSON files for this layer
-#     json_files=("$layer"/*.json)
+    # Collect JSON files for this layer
+    json_files=("$layer"/*.json)
 
-#     # If only one file exists, move it to final directory
-#     if [[ ${#json_files[@]} -eq 1 ]]; then
-#         mv "${json_files[0]}" "$MERGED_JSON_DIR/${layer_name}.json"
-#         echo "✅ Only one file in layer $layer_name, moved to final result."
-#         continue
-#     fi
+    # If only one file exists, move it to final directory
+    if [[ ${#json_files[@]} -eq 1 ]]; then
+        mv "${json_files[0]}" "$MERGED_JSON_DIR/${layer_name}.json"
+        echo "✅ Only one file in layer $layer_name, moved to final result."
+        continue
+    fi
 
-#     round=1
-#     while [[ ${#json_files[@]} -gt 1 ]]; do
-#         echo "  🔄 Round $round - ${#json_files[@]} files in layer $layer_name..."
-#         new_round_files=()
+    round=1
+    while [[ ${#json_files[@]} -gt 1 ]]; do
+        echo "  🔄 Round $round - ${#json_files[@]} files in layer $layer_name..."
+        new_round_files=()
         
-#         for ((i=0; i<${#json_files[@]}; i+=2)); do
-#             file1="${json_files[i]}"
-#             file2="${json_files[i+1]}"
+        for ((i=0; i<${#json_files[@]}; i+=2)); do
+            file1="${json_files[i]}"
+            file2="${json_files[i+1]}"
             
-#             if [[ -z "$file2" ]]; then
-#                 # If odd number of files, push last file to next round
-#                 new_round_files+=("$file1")
-#                 continue
-#             fi
+            if [[ -z "$file2" ]]; then
+                # If odd number of files, push last file to next round
+                new_round_files+=("$file1")
+                continue
+            fi
 
-#             output_file="$layer/merge_round_${round}_${i}.json"
-#             merge_two_json "$file1" "$file2" "$output_file" &
-#             new_round_files+=("$output_file")
-#         done
+            output_file="$layer/merge_round_${round}_${i}.json"
+            merge_two_json "$file1" "$file2" "$output_file" &
+            new_round_files+=("$output_file")
+        done
 
-#         # Wait for all background merges to complete
-#         wait
+        # Wait for all background merges to complete
+        wait
 
-#         json_files=("${new_round_files[@]}")
-#         ((round++))
-#     done
+        json_files=("${new_round_files[@]}")
+        ((round++))
+    done
 
-#     # Move final merged file to destination
-#     mv "${json_files[0]}" "$MERGED_JSON_DIR/${layer_name}.json"
-#     echo "✅ Layer $layer_name merged successfully!"
-# done
+    # Move final merged file to destination
+    mv "${json_files[0]}" "$MERGED_JSON_DIR/${layer_name}.json"
+    echo "✅ Layer $layer_name merged successfully!"
+done
 
 echo "🏆 All layers merged! Final outputs in $MERGED_JSON_DIR"
 echo "❗ Check invalid_files.log and merge_errors.log for any issues."
@@ -213,13 +213,21 @@ MBTILES_DIR=~/Downloads/mbtiles_per_layer
 # Ensure MBTiles directory exists
 mkdir -p "$MBTILES_DIR"
 
-echo "🔄 Creating MBTiles files from merged GeoJSON layers..."
+echo "🔄 Creating a single MBTiles file (MARINE.mbtiles) from merged GeoJSON layers..."
 
+# Define directories
+MERGED_JSON_DIR=~/Downloads/merged_json_layers
+MBTILES_OUTPUT=~/Downloads/mbtiles_per_layer/MARINE.mbtiles
+
+# Remove previous file if it exists
+rm -f "$MBTILES_OUTPUT"
+
+# Initialize Tippecanoe command with output file
+TIPPECANOE_CMD="tippecanoe -o \"$MBTILES_OUTPUT\" --no-feature-limit --no-tile-size-limit -Z1 -z20 -B10 --extend-zooms-if-still-dropping"
+
+# Loop through JSON files and add them as layers
 for master_json in "$MERGED_JSON_DIR"/*.json; do
     layer_name=$(basename "$master_json" .json)
-    output_file="$MBTILES_DIR/$layer_name.mbtiles"
-
-    echo "Processing layer: $layer_name..."
 
     # Get min/max zoom levels dynamically
     layer_info=$(get_layer_info "$layer_name")
@@ -231,16 +239,23 @@ for master_json in "$MERGED_JSON_DIR"/*.json; do
         continue
     fi
 
-    # Run Tippecanoe with dynamic zoom levels
-    if tippecanoe -o "$output_file" --maximum-tile-features=10000000 --maximum-tile-bytes=99999999999999 -z6 -L "$layer_name:$master_json" --name="$layer_name"; then
-        echo "✅ Successfully created: $output_file"
-    else
-        echo "❌ Failed to create MBTiles for layer: $layer_name" >> mbtiles_errors.log
-    fi
+    echo "➕ Adding layer: $layer_name"
+    
+    TIPPECANOE_CMD+=" -L \"$layer_name:$master_json\""
 done
 
-echo "✅ All layers processed! MBTiles saved in: $MBTILES_DIR"
-echo "❗ Check mbtiles_errors.log for any failed conversions."
+# Execute the final Tippecanoe command
+echo "🚀 Running Tippecanoe..."
+eval $TIPPECANOE_CMD
+
+if [[ $? -eq 0 ]]; then
+    echo "✅ Successfully created: $MBTILES_OUTPUT"
+else
+    echo "❌ Failed to create MBTiles file!"
+    exit 1
+fi
+
+echo "🏆 All layers combined into MARINE.mbtiles!"
 
 # 🚀 Define source and destination directories
 MBTILES_SOURCE=~/Downloads/mbtiles_per_layer
